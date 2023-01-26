@@ -11,6 +11,7 @@ subprojects {
     apply plugin: 'jacoco'
     apply plugin: 'io.spring.dependency-management'
 
+    compileJava.options.encoding = 'UTF-8'
     compileJava.dependsOn validateStructure
     sourceCompatibility = JavaVersion.VERSION_17
     test {
