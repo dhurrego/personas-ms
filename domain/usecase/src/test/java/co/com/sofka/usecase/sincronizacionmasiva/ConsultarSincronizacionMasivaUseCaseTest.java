@@ -10,6 +10,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
 
@@ -42,6 +43,19 @@ class ConsultarSincronizacionMasivaUseCaseTest {
                 .ejecucionesFallidas(0)
                 .detallesSincronizacion(Collections.emptyList())
                 .build();
+    }
+
+    @Test
+    void consultarTodasLasSincronizaciones() {
+        when(sincronizacionMasivaRepository.findAll()).thenReturn(Flux.empty());
+
+        spy(sincronizacionMasivaRepository);
+
+        StepVerifier.create(useCase.consultarTodas())
+                .expectNextCount(0)
+                .verifyComplete();
+
+        verify(sincronizacionMasivaRepository, times(1)).findAll();
     }
 
     @Test
