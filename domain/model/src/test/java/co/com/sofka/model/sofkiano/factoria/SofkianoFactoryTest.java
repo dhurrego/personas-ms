@@ -3,6 +3,7 @@ package co.com.sofka.model.sofkiano.factoria;
 import co.com.sofka.model.exception.negocio.BusinessException;
 import co.com.sofka.model.sofkiano.Sofkiano;
 import co.com.sofka.model.sofkiano.dto.SofkianoARegistrarDTO;
+import co.com.sofka.model.sofkiano.dto.SofkianoMasivoDTO;
 import org.junit.jupiter.api.Test;
 
 import java.util.Optional;
@@ -19,7 +20,7 @@ class SofkianoFactoryTest {
     private SofkianoARegistrarDTO sofkianoARegistrarDTO;
 
     @Test
-    void crearSofkianoExitosamente() {
+    void crearSofkianoDesdeSofkianoARegistrarDTOExitosamente() {
         sofkianoARegistrarDTO = new SofkianoARegistrarDTO(
                 TIPO_IDENTIFICACION,
                 NUMERO_IDENTIFICACION,
@@ -275,5 +276,34 @@ class SofkianoFactoryTest {
                 () -> SofkianoFactory.crearSofkiano(sofkianoARegistrarDTO));
 
         assertEquals(ERROR_FORMATO_NOMBRE_INVALIDO.getMessage(), exception.getMessage());
+    }
+
+    @Test
+    void crearSofkianoDesdeSofkianoMasivoDTOExitosamente() {
+        SofkianoMasivoDTO sofkianoMasivoDTO = new SofkianoMasivoDTO(
+                2,
+                TIPO_IDENTIFICACION,
+                NUMERO_IDENTIFICACION,
+                STRING_TEST,
+                Optional.of(STRING_TEST),
+                STRING_TEST,
+                Optional.of(STRING_TEST),
+                STRING_TEST,
+                true,
+                Optional.empty()
+        );
+
+        Sofkiano sofkiano = SofkianoFactory.crearSofkiano(sofkianoMasivoDTO);
+
+        final String DNI = TIPO_IDENTIFICACION.concat(NUMERO_IDENTIFICACION);
+
+        assertEquals(DNI, sofkiano.getDni());
+        assertEquals(TIPO_IDENTIFICACION, sofkiano.getTipoIdentificacion().name());
+        assertEquals(NUMERO_IDENTIFICACION, sofkiano.getNumeroIdentificacion());
+        assertNotNull(sofkiano.getFechaCreacion());
+        assertNotNull(sofkiano.getFechaActualizacion());
+        assertEquals(Optional.empty(), sofkiano.getFechaSalida());
+        assertTrue(sofkiano.isActivo());
+        assertEquals(Optional.empty(), sofkiano.getCliente());
     }
 }

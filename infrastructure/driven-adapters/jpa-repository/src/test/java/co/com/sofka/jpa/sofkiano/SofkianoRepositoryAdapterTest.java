@@ -103,6 +103,19 @@ class SofkianoRepositoryAdapterTest {
     }
 
     @Test
+    void obtenerConsolidadoAsignacionFallidoPorBD() {
+        when(repository.obtenerConsolidadoAsignacion()).thenThrow(new RuntimeException("Desconexion base de datos"));
+
+        StepVerifier.create(sofkianoRepositoryAdapter.obtenerConsolidadoAsignacion())
+                .expectError(TechnicalException.class)
+                .verify();
+
+        StepVerifier.create(sofkianoRepositoryAdapter.obtenerConsolidadoAsignacion())
+                .expectErrorMessage(ERROR_COMUNICACION_BASE_DATOS.getMessage())
+                .verify();
+    }
+
+    @Test
     void toData() {
         final String DNI = TIPO_IDENTIFICACION.concat(NUMERO_IDENTIFICACION);
 

@@ -1,0 +1,5 @@
+azure:
+  storage:
+    blob:
+      connection-string: DefaultEndpointsProtocol=https;AccountName=storagetempadmsofka;AccountKey=WxGihMN/bAIEncnS3DgRocwpOYKV8RkRHC10klRmvWDNXGjOLLY1Qv8rT/Ysw+8BEsuZnOLZo1Ap+AStwB76Kw==;EndpointSuffix=core.windows.net
+      container: doctempsincronizacionmasiva

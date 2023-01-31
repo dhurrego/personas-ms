@@ -16,3 +16,11 @@ include ':jpa-repository'
 project(':jpa-repository').projectDir = file('./infrastructure/driven-adapters/jpa-repository')
 include ':reactive-web'
 project(':reactive-web').projectDir = file('./infrastructure/entry-points/reactive-web')
+include ':azure-storage-account'
+project(':azure-storage-account').projectDir = file('./infrastructure/driven-adapters/azure-storage-account')
+include ':azure-servicebus-messages-senders'
+project(':azure-servicebus-messages-senders').projectDir = file('./infrastructure/driven-adapters/azure-servicebus-messages-senders')
+include ':azure-servicebus-listener'
+project(':azure-servicebus-listener').projectDir = file('./infrastructure/entry-points/azure-servicebus-listener')
+include ':apache-poi'
+project(':apache-poi').projectDir = file('./infrastructure/helpers/apache-poi')

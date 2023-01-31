@@ -7,12 +7,15 @@ import co.com.sofka.jpa.sofkiano.mapper.SofkianoMapper;
 import co.com.sofka.model.sofkiano.ConsolidadoAsignacionSofkiano;
 import co.com.sofka.model.sofkiano.Sofkiano;
 import co.com.sofka.model.sofkiano.gateways.SofkianoRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.reactivecommons.utils.ObjectMapper;
 import org.springframework.stereotype.Repository;
 import reactor.core.publisher.Mono;
 
+import static co.com.sofka.model.exception.tecnico.TechnicalException.Tipo.ERROR_COMUNICACION_BASE_DATOS;
 import static reactor.core.publisher.Mono.fromSupplier;
 
+@Slf4j
 @Repository
 public class SofkianoRepositoryAdapter extends AdapterOperations<Sofkiano, SofkianoData, String, SofkianoDataRepository>
  implements SofkianoRepository
@@ -40,6 +43,9 @@ public class SofkianoRepositoryAdapter extends AdapterOperations<Sofkiano, Sofki
                     Integer totalSofkianos = conAsignacion + sinAsignacion;
 
                     return new ConsolidadoAsignacionSofkiano(conAsignacion, sinAsignacion, totalSofkianos);
+                }).onErrorResume(throwable -> {
+                    log.error(throwable.toString());
+                    return Mono.error(ERROR_COMUNICACION_BASE_DATOS::build);
                 });
     }
 

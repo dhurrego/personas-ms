@@ -1,6 +1,10 @@
 apply plugin: 'org.springframework.boot'
 
 dependencies {
+	implementation project( ':apache-poi')
+	implementation project( ':azure-servicebus-listener')
+	implementation project( ':azure-servicebus-messages-senders')
+	implementation project( ':azure-storage-account')
 	implementation project( ':reactive-web')
 	implementation 'org.reactivecommons.utils:object-mapper:0.1.0'
 	implementation project( ':jpa-repository')

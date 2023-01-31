@@ -2,6 +2,7 @@ package co.com.sofka.model.sofkiano.factoria;
 
 import co.com.sofka.model.sofkiano.Sofkiano;
 import co.com.sofka.model.sofkiano.dto.SofkianoARegistrarDTO;
+import co.com.sofka.model.sofkiano.dto.SofkianoMasivoDTO;
 import co.com.sofka.model.sofkiano.enums.TipoIdentificacion;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -18,8 +19,13 @@ import static co.com.sofka.model.exception.negocio.BusinessException.Tipo.*;
 public class SofkianoFactory {
 
     public static Sofkiano crearSofkiano(SofkianoARegistrarDTO sofkianoARegistrarDTO) {
-        validarCamposObligatorios(sofkianoARegistrarDTO);
-        validarFormatoCampos(sofkianoARegistrarDTO);
+        validarCamposObligatorios(sofkianoARegistrarDTO.tipoIdentificacion(), sofkianoARegistrarDTO.numeroIdentificacion(),
+                sofkianoARegistrarDTO.primerNombre(), sofkianoARegistrarDTO.primerApellido(),
+                sofkianoARegistrarDTO.direccion());
+
+        validarFormatoCampos(sofkianoARegistrarDTO.tipoIdentificacion(), sofkianoARegistrarDTO.numeroIdentificacion(),
+                sofkianoARegistrarDTO.primerNombre(), sofkianoARegistrarDTO.segundoNombre(),
+                sofkianoARegistrarDTO.primerApellido(), sofkianoARegistrarDTO.segundoApellido());
 
         LocalDateTime fecha = LocalDateTime.now();
         return Sofkiano
@@ -40,20 +46,48 @@ public class SofkianoFactory {
                 .build();
     }
 
-    private static void validarCamposObligatorios(SofkianoARegistrarDTO sofkianoARegistrarDTO) {
-        if(validarSiCadenaEsNulaOVacia(sofkianoARegistrarDTO.tipoIdentificacion())) {
+    public static Sofkiano crearSofkiano(SofkianoMasivoDTO sofkianoMasivoDTO) {
+        validarCamposObligatorios(sofkianoMasivoDTO.tipoIdentificacion(), sofkianoMasivoDTO.numeroIdentificacion(),
+                sofkianoMasivoDTO.primerNombre(), sofkianoMasivoDTO.primerApellido(), sofkianoMasivoDTO.direccion());
+
+        validarFormatoCampos(sofkianoMasivoDTO.tipoIdentificacion(), sofkianoMasivoDTO.numeroIdentificacion(),
+                sofkianoMasivoDTO.primerNombre(), sofkianoMasivoDTO.segundoNombre(),
+                sofkianoMasivoDTO.primerApellido(), sofkianoMasivoDTO.segundoApellido());
+
+        LocalDateTime fecha = LocalDateTime.now();
+        return Sofkiano
+                .builder()
+                .dni(sofkianoMasivoDTO.tipoIdentificacion().concat(sofkianoMasivoDTO.numeroIdentificacion()))
+                .tipoIdentificacion(TipoIdentificacion.valueOf(sofkianoMasivoDTO.tipoIdentificacion()))
+                .numeroIdentificacion(sofkianoMasivoDTO.numeroIdentificacion())
+                .primerNombre(sofkianoMasivoDTO.primerNombre())
+                .segundoNombre(sofkianoMasivoDTO.segundoNombre())
+                .primerApellido(sofkianoMasivoDTO.primerApellido())
+                .segundoApellido(sofkianoMasivoDTO.segundoApellido())
+                .direccion(sofkianoMasivoDTO.direccion())
+                .activo(sofkianoMasivoDTO.activo())
+                .fechaCreacion(fecha)
+                .fechaActualizacion(fecha)
+                .fechaSalida(Optional.empty())
+                .cliente(Optional.empty())
+                .build();
+    }
+
+    private static void validarCamposObligatorios(String tipoIdentificacion, String numeroIdentificacion,
+                                                  String primerNombre, String primerApellido, String direccion) {
+        if(validarSiCadenaEsNulaOVacia(tipoIdentificacion)) {
             throw ERROR_TIPO_IDENTIFICACION_REQUERIDO.build();
         }
-        if(validarSiCadenaEsNulaOVacia(sofkianoARegistrarDTO.numeroIdentificacion())) {
+        if(validarSiCadenaEsNulaOVacia(numeroIdentificacion)) {
             throw ERROR_NUMERO_IDENTIFICACION_REQUERIDO.build();
         }
-        if(validarSiCadenaEsNulaOVacia(sofkianoARegistrarDTO.primerNombre())) {
+        if(validarSiCadenaEsNulaOVacia(primerNombre)) {
             throw ERROR_PRIMER_NOMBRE_REQUERIDO.build();
         }
-        if(validarSiCadenaEsNulaOVacia(sofkianoARegistrarDTO.primerApellido())) {
+        if(validarSiCadenaEsNulaOVacia(primerApellido)) {
             throw ERROR_PRIMER_APELLIDO_REQUERIDO.build();
         }
-        if(validarSiCadenaEsNulaOVacia(sofkianoARegistrarDTO.direccion())) {
+        if(validarSiCadenaEsNulaOVacia(direccion)) {
             throw ERROR_DIRECCION_REQUERIDA.build();
         }
     }
@@ -62,14 +96,15 @@ public class SofkianoFactory {
         return Objects.isNull(cadena) || cadena.isEmpty();
     }
 
-    private static void validarFormatoCampos(SofkianoARegistrarDTO sofkianoARegistrarDTO) {
-        validarFormatoTipoIdentificacion(sofkianoARegistrarDTO.tipoIdentificacion());
-        validarFormatoNumeroIdentificacion(sofkianoARegistrarDTO.numeroIdentificacion());
-        validarFormatoNombre(sofkianoARegistrarDTO.primerNombre());
-        sofkianoARegistrarDTO.segundoNombre().ifPresent(SofkianoFactory::validarFormatoNombre);
-        validarFormatoNombre(sofkianoARegistrarDTO.primerNombre());
-        validarFormatoNombre(sofkianoARegistrarDTO.primerApellido());
-        sofkianoARegistrarDTO.segundoApellido().ifPresent(SofkianoFactory::validarFormatoNombre);
+    private static void validarFormatoCampos(String tipoIdentificacion, String numeroIdentificacion,
+                                             String primerNombre, Optional<String> segundoNombre,
+                                             String primerApellido, Optional<String> segundoApellido) {
+        validarFormatoTipoIdentificacion(tipoIdentificacion);
+        validarFormatoNumeroIdentificacion(numeroIdentificacion);
+        validarFormatoNombre(primerNombre);
+        segundoNombre.ifPresent(SofkianoFactory::validarFormatoNombre);
+        validarFormatoNombre(primerApellido);
+        segundoApellido.ifPresent(SofkianoFactory::validarFormatoNombre);
     }
 
     private static void validarFormatoTipoIdentificacion(String tipoIdentificacion) {
