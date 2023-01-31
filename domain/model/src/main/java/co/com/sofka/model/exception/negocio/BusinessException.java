@@ -25,7 +25,11 @@ public class BusinessException extends BaseException {
         ERROR_FORMATO_NIT_INVALIDO("El campo NIT solo permite digitos (0-9)", 400),
         ERROR_DIGITO_VERIFICACION_NIT_INVALIDO("El dígito de verificación del NIT no es valido", 400),
         ERROR_SOFKIANO_NO_ENCONTRADO("El sofkiano no se encuentra registrado", 404),
-        ERROR_CLIENTE_NO_ENCONTRADO("El cliente no se encuentra registrado", 404);
+        ERROR_CLIENTE_NO_ENCONTRADO("El cliente no se encuentra registrado", 404),
+        ERROR_CANTIDAD_MAXIMA_REGISTROS_SINCRONIZACION_MASIVA_INVALIDO("Se supero la cantidad máxima de registros permitida", 400),
+        ERROR_PROCESO_SINCRONIZACION_MASIVA_NO_ENCONTRADO("No se encontro un proceso de sincronizacion masiva", 404),
+        ERROR_ESTADO_INVALIDO_SINCRONIZACION_MASIVA("El estado del proceso de sincronizacion es diferente a CREADO", 400),
+        ERROR_EXTENSION_ARCHIVO_INVALIDA("La extensión del archivo es invalida", 400);
 
         @Getter
         private final String message;

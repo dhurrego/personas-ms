@@ -40,7 +40,7 @@ public abstract class AdapterOperations<E, D, I, R extends JpaRepository<D, I> &
         return Mono.just(entity)
                 .map(this::toData)
                 .flatMap(this::saveData)
-                .thenReturn(entity);
+                .map(this::toEntity);
     }
 
     private Mono<E> doQuery(Mono<D> query) {
