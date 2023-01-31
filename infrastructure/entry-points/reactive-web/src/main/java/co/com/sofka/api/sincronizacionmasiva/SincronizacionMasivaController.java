@@ -10,17 +10,30 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.http.codec.multipart.FilePart;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.web.bind.annotation.*;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.net.URI;
 
 @RestController
-@RequestMapping(value = "/sofkianos/sincronizacion-masiva", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/sincronizaciones-masivas", produces = MediaType.APPLICATION_JSON_VALUE)
 @RequiredArgsConstructor
 public class SincronizacionMasivaController {
 
     private final SolicitarSincronizacionMasivaUseCase solicitarSincronizacionMasivaUseCase;
     private final ConsultarSincronizacionMasivaUseCase consultarSincronizacionMasivaUseCase;
+
+    @GetMapping()
+    public Mono<ResponseEntity<Flux<SincronizacionMasivaDTO>>> consultarTodas() {
+        return Mono.just(ResponseEntity.ok()
+                .body(consultarSincronizacionMasivaUseCase.consultarTodas()));
+    }
+
+    @GetMapping("/{idSincronizacion}")
+    public Mono<ResponseEntity<SincronizacionMasivaDTO>> consultarSincronizacion(@PathVariable String idSincronizacion) {
+        return consultarSincronizacionMasivaUseCase.consultarSincronizacion(idSincronizacion)
+                .map(ResponseEntity::ok);
+    }
 
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public Mono<ResponseEntity<SincronizacionMasivaDTO>> sincronizacionMasiva(@RequestPart FilePart file,
@@ -35,11 +48,5 @@ public class SincronizacionMasivaController {
                                                 .concat(sincronizacionMasivaDTO.idSincronizacion())))
                                 .body(sincronizacionMasivaDTO)
                 );
-    }
-
-    @GetMapping("/{idSincronizacion}")
-    public Mono<ResponseEntity<SincronizacionMasivaDTO>> consultarSincronizacion(@PathVariable String idSincronizacion) {
-        return consultarSincronizacionMasivaUseCase.consultarSincronizacion(idSincronizacion)
-                .map(ResponseEntity::ok);
     }
 }

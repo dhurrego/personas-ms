@@ -23,6 +23,7 @@ import org.springframework.http.ProblemDetail;
 import org.springframework.http.client.MultipartBodyBuilder;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import org.springframework.web.reactive.function.BodyInserters;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.util.Collections;
@@ -74,7 +75,7 @@ class SincronizacionMasivaControllerTest {
         multipartBodyBuilder.part("file", new ClassPathResource("archivoPrueba.xlsx"))
                 .contentType(MediaType.MULTIPART_FORM_DATA);
 
-        webTestClient.post().uri("/sofkianos/sincronizacion-masiva")
+        webTestClient.post().uri("/sincronizaciones-masivas")
                 .contentType(MediaType.MULTIPART_FORM_DATA)
                 .body(BodyInserters.fromMultipartData(multipartBodyBuilder.build()))
                 .exchange()
@@ -89,7 +90,7 @@ class SincronizacionMasivaControllerTest {
         when(solicitarSincronizacionMasivaUseCase.solicitarSincronizacion(any(ArchivoDTO.class)))
                 .thenReturn(Mono.just(sincronizacionMasivaDTO));
 
-        webTestClient.post().uri("/sofkianos/sincronizacion-masiva")
+        webTestClient.post().uri("/sincronizaciones-masivas")
                 .body(Mono.just(sincronizacionMasivaDTO), SincronizacionMasivaDTO.class)
                 .exchange()
                 .expectStatus().isEqualTo(HttpStatus.UNSUPPORTED_MEDIA_TYPE.value())
@@ -102,7 +103,19 @@ class SincronizacionMasivaControllerTest {
         when(consultarSincronizacionMasivaUseCase.consultarSincronizacion(anyString()))
                 .thenReturn(Mono.just(sincronizacionMasivaDTO));
 
-        webTestClient.get().uri("/sofkianos/sincronizacion-masiva/".concat(ID_SINCRONIZACION))
+        webTestClient.get().uri("/sincronizaciones-masivas/".concat(ID_SINCRONIZACION))
+                .exchange()
+                .expectStatus().isOk()
+                .expectHeader().contentType(APPLICATION_JSON_VALUE)
+                .expectBody(SincronizacionMasivaDTO.class);
+    }
+
+    @Test
+    void consultarTodasLasSincronizaciones() {
+        when(consultarSincronizacionMasivaUseCase.consultarTodas())
+                .thenReturn(Flux.empty());
+
+        webTestClient.get().uri("/sincronizaciones-masivas")
                 .exchange()
                 .expectStatus().isOk()
                 .expectHeader().contentType(APPLICATION_JSON_VALUE)
