@@ -11,14 +11,14 @@ import java.util.List;
 public interface SofkianoDataRepository extends JpaRepository<SofkianoData, String>, QueryByExampleExecutor<SofkianoData> {
 
     @Query(value = """
-            SELECT new co.com.sofka.jpa.sofkiano.data.ConsolidadoAsignacionData(CASE 
+            SELECT new co.com.sofka.jpa.sofkiano.data.ConsolidadoAsignacionData(CASE
             WHEN s.clienteData.nit IS NOT null 
             THEN 'CON_ASIGNACION' 
             ELSE 'SIN_ASIGNACION' 
             END, 
-            COUNT(s.clienteData.nit)) 
+            COUNT(*)) 
             FROM SofkianoData s 
             WHERE s.activo = true 
-            GROUP BY CASE WHEN s.clienteData.nit IS NOT null THEN 'CON_ASIGNACION' ELSE 'SIN_ASIGNACION' END""")
+            GROUP BY s.clienteData.nit""")
     List<ConsolidadoAsignacionData> obtenerConsolidadoAsignacion();
 }
