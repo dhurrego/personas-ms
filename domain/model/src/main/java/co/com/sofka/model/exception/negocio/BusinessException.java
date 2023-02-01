@@ -29,7 +29,14 @@ public class BusinessException extends BaseException {
         ERROR_CANTIDAD_MAXIMA_REGISTROS_SINCRONIZACION_MASIVA_INVALIDO("Se supero la cantidad máxima de registros permitida", 400),
         ERROR_PROCESO_SINCRONIZACION_MASIVA_NO_ENCONTRADO("No se encontro un proceso de sincronizacion masiva", 404),
         ERROR_ESTADO_INVALIDO_SINCRONIZACION_MASIVA("El estado del proceso de sincronizacion es diferente a CREADO", 400),
-        ERROR_EXTENSION_ARCHIVO_INVALIDA("La extensión del archivo es invalida", 400);
+        ERROR_EXTENSION_ARCHIVO_INVALIDA("La extensión del archivo es invalida", 400),
+        ERROR_DESCRIPCION_REQUERIDO("El campo descripción es obligatorio", 400),
+        ERROR_NIVEL_SATISFACCION_REQUERIDO("El campo nivel de satisfacción es obligatorio", 400),
+        ERROR_NIVEL_SATISFACCION_VALOR_INVALIDO("El campo nivel de satisfacción solo permite números del 0 al 10", 400),
+        ERROR_LONGITUD_DESCRIPCION("La descripción debe ser mayor a 5 caracteres", 400),
+        ERROR_FORMATO_DESCRIPCION_INVALIDO("El campo descripción no permite carácteres especiales", 400),
+        ERROR_SOFKIANO_NO_ASIGNADO_AL_CLIENTE("El sofkiano no se encuentra asignado al cliente que intenta calificar", 400),
+        ERROR_EXPERIENCIAS_NO_ENCONTRADAS("No se encontraron experencias registradas con los filtros seleccionados", 404);
 
         @Getter
         private final String message;

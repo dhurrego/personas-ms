@@ -20,7 +20,7 @@ spring:
           lob:
             non_contextual_creation: true
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: update
   datasource:
     driver-class-name: "org.postgresql.Driver"
     url: "jdbc:postgresql://localhost:5432/personas_sofka"
