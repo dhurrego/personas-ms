@@ -1,8 +1,8 @@
-package co.com.sofka.broker;
+package co.com.sofka.broker.sincronizacionmasiva;
 
+import co.com.sofka.broker.PublicadorMensajes;
 import co.com.sofka.model.sincronizacionmasiva.dto.SincronizacionMasivaDTO;
 import co.com.sofka.model.sincronizacionmasiva.gateways.SincronizacionMasivaGateway;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.stereotype.Component;
@@ -12,18 +12,19 @@ import static co.com.sofka.model.exception.tecnico.TechnicalException.Tipo.ERROR
 
 @Slf4j
 @Component
-@RequiredArgsConstructor
-public class SincronizacionMasivaAsyncAdapter implements SincronizacionMasivaGateway {
+public class SincronizacionMasivaAsyncAdapter extends PublicadorMensajes<SincronizacionMasivaDTO>
+        implements SincronizacionMasivaGateway {
 
     private static final String TOPIC_NAME = "sincronizacionmasiva";
-    private final JmsTemplate jmsTemplate;
+
+    public SincronizacionMasivaAsyncAdapter(JmsTemplate jmsTemplate) {
+        super(jmsTemplate);
+    }
+
     @Override
     public Mono<SincronizacionMasivaDTO> solicitarInicioProcesoSincronizacion(SincronizacionMasivaDTO sincronizacionMasivaDTO) {
         return Mono.just(sincronizacionMasivaDTO)
-                .doOnNext( sincronizacionMasiva -> {
-                    log.info("Enviando mensaje al topic {}: {}", TOPIC_NAME, sincronizacionMasiva);
-                    jmsTemplate.convertAndSend(TOPIC_NAME, sincronizacionMasiva);
-                })
+                .doOnNext( sincronizacionMasiva -> enviarMensaje(TOPIC_NAME, sincronizacionMasiva))
                 .onErrorResume( throwable -> {
                     log.error(throwable.toString());
                     return Mono.error(ERROR_PUBLICANDO_MENSAJE_SINCRONIZACION_MASIVA.build());

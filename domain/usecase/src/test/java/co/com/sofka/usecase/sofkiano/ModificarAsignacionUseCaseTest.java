@@ -1,6 +1,8 @@
 package co.com.sofka.usecase.sofkiano;
 
+import co.com.sofka.model.cliente.Cliente;
 import co.com.sofka.model.cliente.dto.ClienteDTO;
+import co.com.sofka.model.estadisticas.gateways.CambioAsignacionGateway;
 import co.com.sofka.model.exception.negocio.BusinessException;
 import co.com.sofka.model.sofkiano.Sofkiano;
 import co.com.sofka.model.sofkiano.dto.AsignarClienteDTO;
@@ -43,6 +45,9 @@ class ModificarAsignacionUseCaseTest {
     @Mock
     private ConsultarClientesUseCase consultarClientesUseCase;
 
+    @Mock
+    private CambioAsignacionGateway cambioAsignacionGateway;
+
     private Sofkiano sofkiano;
 
     private AsignarClienteDTO asignarClienteDTO;
@@ -78,7 +83,15 @@ class ModificarAsignacionUseCaseTest {
     void asignarClienteExitosamente() {
         when(consultarClientesUseCase.listarPorNit(anyString())).thenReturn(Mono.just(clienteDTO));
         when(sofkianoRepository.findById(anyString())).thenReturn(Mono.just(sofkiano));
+
+        sofkiano = sofkiano.toBuilder()
+                .cliente(Optional.of(Cliente.builder()
+                        .nit(NIT)
+                        .razonSocial(STRING_TEST).build()))
+                .build();
+
         when(sofkianoRepository.save(any(Sofkiano.class))).thenReturn(Mono.just(sofkiano));
+        when(cambioAsignacionGateway.reportarCambioAsignacionSofkiano(any())).thenReturn(Mono.just(Boolean.TRUE));
 
         spy(sofkianoRepository);
         spy(consultarClientesUseCase);
@@ -90,6 +103,7 @@ class ModificarAsignacionUseCaseTest {
         verify(consultarClientesUseCase, times(1)).listarPorNit(anyString());
         verify(sofkianoRepository, times(1)).findById(anyString());
         verify(sofkianoRepository, times(1)).save(any(Sofkiano.class));
+        verify(cambioAsignacionGateway, times(1)).reportarCambioAsignacionSofkiano(any());
     }
 
     @Test
@@ -139,8 +153,14 @@ class ModificarAsignacionUseCaseTest {
 
     @Test
     void retirarAsignacionExitosamente() {
+        sofkiano = sofkiano.toBuilder()
+                .cliente(Optional.of(Cliente.builder()
+                        .nit(NIT)
+                        .razonSocial(STRING_TEST).build()))
+                .build();
         when(sofkianoRepository.findById(anyString())).thenReturn(Mono.just(sofkiano));
         when(sofkianoRepository.save(any(Sofkiano.class))).thenReturn(Mono.just(sofkiano));
+        when(cambioAsignacionGateway.reportarCambioAsignacionSofkiano(any())).thenReturn(Mono.just(Boolean.TRUE));
 
         spy(sofkianoRepository);
 
@@ -150,6 +170,7 @@ class ModificarAsignacionUseCaseTest {
 
         verify(sofkianoRepository, times(1)).findById(anyString());
         verify(sofkianoRepository, times(1)).save(any(Sofkiano.class));
+        verify(cambioAsignacionGateway, times(1)).reportarCambioAsignacionSofkiano(any());
     }
 
     @Test

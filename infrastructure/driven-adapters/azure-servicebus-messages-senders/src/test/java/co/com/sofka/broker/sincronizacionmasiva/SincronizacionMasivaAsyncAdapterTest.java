@@ -1,4 +1,4 @@
-package co.com.sofka.broker;
+package co.com.sofka.broker.sincronizacionmasiva;
 
 import co.com.sofka.model.exception.tecnico.TechnicalException;
 import co.com.sofka.model.sincronizacionmasiva.EstadoSincronizacion;

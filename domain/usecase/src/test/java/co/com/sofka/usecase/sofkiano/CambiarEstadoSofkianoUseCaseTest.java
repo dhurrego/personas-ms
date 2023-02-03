@@ -1,5 +1,6 @@
 package co.com.sofka.usecase.sofkiano;
 
+import co.com.sofka.model.estadisticas.gateways.CambioEstadoGateway;
 import co.com.sofka.model.exception.negocio.BusinessException;
 import co.com.sofka.model.sofkiano.Sofkiano;
 import co.com.sofka.model.sofkiano.enums.TipoIdentificacion;
@@ -35,6 +36,9 @@ class CambiarEstadoSofkianoUseCaseTest {
     @Mock
     private SofkianoRepository sofkianoRepository;
 
+    @Mock
+    private CambioEstadoGateway cambioEstadoGateway;
+
     private Sofkiano sofkiano;
 
     @BeforeEach
@@ -60,6 +64,7 @@ class CambiarEstadoSofkianoUseCaseTest {
     void inactivarSofkianoExitosamente() {
         when(sofkianoRepository.findById(anyString())).thenReturn(Mono.just(sofkiano));
         when(sofkianoRepository.save(any(Sofkiano.class))).thenReturn(Mono.just(sofkiano));
+        when(cambioEstadoGateway.reportarCambioEstadoSofkiano(any())).thenReturn(Mono.just(Boolean.TRUE));
 
         spy(sofkianoRepository);
 
@@ -69,6 +74,7 @@ class CambiarEstadoSofkianoUseCaseTest {
 
         verify(sofkianoRepository, times(1)).findById(anyString());
         verify(sofkianoRepository, times(1)).save(any(Sofkiano.class));
+        verify(cambioEstadoGateway, times(1)).reportarCambioEstadoSofkiano(any());
     }
 
     @Test
@@ -92,6 +98,7 @@ class CambiarEstadoSofkianoUseCaseTest {
 
         verify(sofkianoRepository, times(2)).findById(anyString());
         verify(sofkianoRepository, times(0)).save(any(Sofkiano.class));
+        verify(cambioEstadoGateway, times(0)).reportarCambioEstadoSofkiano(any());
     }
 
     @Test
@@ -110,6 +117,7 @@ class CambiarEstadoSofkianoUseCaseTest {
 
         verify(sofkianoRepository, times(2)).findById(anyString());
         verify(sofkianoRepository, times(0)).save(any(Sofkiano.class));
+        verify(cambioEstadoGateway, times(0)).reportarCambioEstadoSofkiano(any());
     }
 
     @Test
@@ -121,6 +129,7 @@ class CambiarEstadoSofkianoUseCaseTest {
 
         when(sofkianoRepository.findById(anyString())).thenReturn(Mono.just(sofkiano));
         when(sofkianoRepository.save(any(Sofkiano.class))).thenReturn(Mono.just(sofkiano));
+        when(cambioEstadoGateway.reportarCambioEstadoSofkiano(any())).thenReturn(Mono.just(Boolean.TRUE));
 
         spy(sofkianoRepository);
 
@@ -130,6 +139,7 @@ class CambiarEstadoSofkianoUseCaseTest {
 
         verify(sofkianoRepository, times(1)).findById(anyString());
         verify(sofkianoRepository, times(1)).save(any(Sofkiano.class));
+        verify(cambioEstadoGateway, times(1)).reportarCambioEstadoSofkiano(any());
     }
 
     @Test
@@ -148,6 +158,7 @@ class CambiarEstadoSofkianoUseCaseTest {
 
         verify(sofkianoRepository, times(2)).findById(anyString());
         verify(sofkianoRepository, times(0)).save(any(Sofkiano.class));
+        verify(cambioEstadoGateway, times(0)).reportarCambioEstadoSofkiano(any());
     }
 
     @Test
@@ -166,5 +177,6 @@ class CambiarEstadoSofkianoUseCaseTest {
 
         verify(sofkianoRepository, times(2)).findById(anyString());
         verify(sofkianoRepository, times(0)).save(any(Sofkiano.class));
+        verify(cambioEstadoGateway, times(0)).reportarCambioEstadoSofkiano(any());
     }
 }
