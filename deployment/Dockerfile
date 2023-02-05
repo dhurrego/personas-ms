@@ -1,10 +1,14 @@
-FROM amazoncorretto:17-alpine as builder
+FROM gradle:jdk17-alpine as builder
 
 WORKDIR /app
 
 COPY . /app
 
-RUN ./gradlew build
+USER root
+RUN chown -R gradle /app
+USER gradle
+
+RUN gradle build
 
 FROM amazoncorretto:17-alpine
 
