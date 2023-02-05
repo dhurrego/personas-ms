@@ -2,7 +2,7 @@ buildscript {
 	ext {
 		cleanArchitectureVersion = '2.4.6'
 		springBootVersion = '3.0.1'
-		sonarVersion = '3.0'
+		sonarVersion = '3.4.0.2513'
 		jacocoVersion = '0.8.8'
         lombokVersion = '1.18.24'
 	}
@@ -26,6 +26,11 @@ sonarqube {
         property "sonar.junit.reportsPath", ""
         property "sonar.java.coveragePlugin", "jacoco"
         property "sonar.coverage.jacoco.xmlReportPaths", "build/reports/jacoco/test/jacocoTestReport.xml"
+        property "sonar.exclusions",
+                """**/applications/app-service/src/main/java/co/com/sofka/MainApplication.java, 
+                    **/applications/app-service/src/main/java/co/com/sofka/config/UseCasesConfig.java, 
+                    **/infrastructure/driven-adapters/azure-storage-account/src/main/java/co/com/sofka/azure/config/AzureConfig.java,
+                    **/infrastructure/entry-points/reactive-web/src/main/java/co/com/sofka/api/config/SwaggerConfig.java"""
     }
 }
 

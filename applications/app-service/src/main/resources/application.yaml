@@ -1,14 +1,60 @@
-##Spring Configuration
 server:
   port: 8080
+  servlet:
+    encoding:
+      charset: "UTF-8"
+      force: true
 spring:
   application:
-    name: personas-ms
+    name: "personas-ms"
   devtools:
     add-properties: false
-  h2:
-    console:
-      enabled: true
-      path: /h2
   profiles:
-    include:
+    include: "develop"
+  jpa:
+    database-platform: "org.hibernate.dialect.PostgreSQLDialect"
+    generate-ddl: true
+    properties:
+      hibernate:
+        jdbc:
+          lob:
+            non_contextual_creation: true
+    hibernate:
+      ddl-auto: update
+  datasource:
+    driver-class-name: "org.postgresql.Driver"
+    url: jdbc:postgresql://postgres-db-admin-sofka.postgres.database.azure.com:5432/personas_sofka?user=sofka&password=S60S1Gh2pE$z&sslmode=require
+  jms:
+    servicebus:
+      connection-string: Endpoint=sb://sb-administracion-sofkianos.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=rJnBJoWWn/Hj43Shyw2kdffD0RJgmjTH4TzhCxTxPhI=
+      pricing-tier: standard
+      idle-timeout: 1800000
+      topic-client-id: f535fb23-3ec0-4ce7-b5d7-7ae66f65e0e1
+    cache:
+      producers: false
+
+azure:
+  storage:
+    blob:
+      connection-string: DefaultEndpointsProtocol=https;AccountName=storagetempadmsofka;AccountKey=WxGihMN/bAIEncnS3DgRocwpOYKV8RkRHC10klRmvWDNXGjOLLY1Qv8rT/Ysw+8BEsuZnOLZo1Ap+AStwB76Kw==;EndpointSuffix=core.windows.net
+      container: doctempsincronizacionmasiva
+
+constantes:
+  carga-masiva:
+    registros:
+      maximo: 100
+
+springdoc:
+  swagger-ui:
+    path: /swagger-doc/swagger-ui.html
+  api-docs:
+    path: /swagger-doc/v3/api-docs
+  packages-to-scan: co.com.sofka.api
+  webjars:
+    prefix: /documentacion
+
+logging:
+  level:
+    org:
+      hibernate:
+        SQL: "debug"

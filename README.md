@@ -1,47 +1,61 @@
-# Proyecto Base Implementando Clean Architecture
+# Microservicio Personas (API)
 
-## Antes de Iniciar
+## Arquitectura
 
-Empezaremos por explicar los diferentes componentes del proyectos y partiremos de los componentes externos, continuando con los componentes core de negocio (dominio) y por último el inicio y configuración de la aplicación.
+AplicaciÃ³n creada bajo Arquitectura hexagonal utilizando el plugin [Scaffolding Bancolombia](https://github.com/bancolombia/scaffold-clean-architecture)
 
-Lee el artículo [Clean Architecture — Aislando los detalles](https://medium.com/bancolombia-tech/clean-architecture-aislando-los-detalles-4f9530f35d7a)
+Basado en esta arquitectura se crearon las capas
 
-# Arquitectura
+* Dominio (Casos de uso y modelo)
+* Infraestructura (Entrypoint, adapters y helpers)
+* AplicaciÃ³n (Ensamblador de modulos, creacion de beans principales)
 
-![Clean Architecture](https://miro.medium.com/max/1400/1*ZdlHz8B0-qu9Y-QO3AXR_w.png)
+## TÃ©cnologias utilizadas
 
-## Domain
+* SpringBoot 3.0.1
+* Spring WebFlux
+* Java 17
+* Base de datos PostgreSQL
+* Cuenta de almacenamiento de azure (Storage Account)
+* Broker de mensajeria (Azure ServiceBus)
+* Docker
+* Kubernetes
 
-Es el módulo más interno de la arquitectura, pertenece a la capa del dominio y encapsula la lógica y reglas del negocio mediante modelos y entidades del dominio.
+### Algunas librerias
+* Swagger (DocumentaciÃ³n de servicios)
+* Apache POI (Procesamiento de archivos Excel)
 
-## Usecases
+## Analisis de cÃ³digo estatico
 
-Este módulo gradle perteneciente a la capa del dominio, implementa los casos de uso del sistema, define lógica de aplicación y reacciona a las invocaciones desde el módulo de entry points, orquestando los flujos hacia el módulo de entities.
+Se utilizo la herramienta de SonarQube para identificar Code Smell
+y calcular la cobertura
 
-## Infrastructure
+![Cobertura](https://res.cloudinary.com/dn4mmllzs/image/upload/c_pad,b_auto:predominant,fl_preserve_transparency/v1675629439/sofka/Cobertura_personas-ms_lyitmb.jpg)
 
-### Helpers
+## DocumentaciÃ³n API
 
-En el apartado de helpers tendremos utilidades generales para los Driven Adapters y Entry Points.
+Se crea la documentaciÃ³n a travÃ©s de Swagger, se anexa enlace de la misma: 
+[DocumentaciÃ³n Swagger](http://52.226.240.196/swagger-doc/swagger-ui.html)
 
-Estas utilidades no están arraigadas a objetos concretos, se realiza el uso de generics para modelar comportamientos
-genéricos de los diferentes objetos de persistencia que puedan existir, este tipo de implementaciones se realizan
-basadas en el patrón de diseño [Unit of Work y Repository](https://medium.com/@krzychukosobudzki/repository-design-pattern-bc490b256006)
+## Despliegue
 
-Estas clases no puede existir solas y debe heredarse su compartimiento en los **Driven Adapters**
+Se crea el respectivo Pipeline y Release usando Azure DevOps para el despliegue 
+de la aplicaciÃ³n, el cual se encarga de publicar la imagÃ©n de docker en el
+Azure Container Registry y luego desplegarla en el AKS. 
 
-### Driven Adapters
+El release esta enlazado al pipeline y se ejecutarÃ¡ de manera automatica una 
+vez termina el pipeline, por tanto para el despliegue, solo es necesario correr 
+el pipeline
 
-Los driven adapter representan implementaciones externas a nuestro sistema, como lo son conexiones a servicios rest,
-soap, bases de datos, lectura de archivos planos, y en concreto cualquier origen y fuente de datos con la que debamos
-interactuar.
+![Pipeline](https://res.cloudinary.com/dn4mmllzs/image/upload/c_pad,b_auto:predominant,fl_preserve_transparency/v1675629690/sofka/Pipeline_personas-ms_phzier.jpg)
+![Release](https://res.cloudinary.com/dn4mmllzs/image/upload/c_pad,b_auto:predominant,fl_preserve_transparency/v1675629690/sofka/Release_personas-ms_bhrkgi.jpg)
 
-### Entry Points
+## Endpoint principal
 
-Los entry points representan los puntos de entrada de la aplicación o el inicio de los flujos de negocio.
+Usando Azure API Managament se crea el API Gateway o puerta principal para el front
+la URL correspondiente a este microservicio es: 
+https://adminsofka-apimanagement.azure-api.net/personas
 
-## Application
+## Arquitectura general del proyecto 
 
-Este módulo es el más externo de la arquitectura, es el encargado de ensamblar los distintos módulos, resolver las dependencias y crear los beans de los casos de use (UseCases) de forma automática, inyectando en éstos instancias concretas de las dependencias declaradas. Además inicia la aplicación (es el único módulo del proyecto donde encontraremos la función “public static void main(String[] args)”.
-
-**Los beans de los casos de uso se disponibilizan automaticamente gracias a un '@ComponentScan' ubicado en esta capa.**
+![Arquitectura global](https://res.cloudinary.com/dn4mmllzs/image/upload/c_pad,b_auto:predominant,fl_preserve_transparency/v1675629439/sofka/Arquitectura_aplicaci%C3%B3n_ADMIN_SOFKA-Arquitectura.drawio_axsobv.jpg)
