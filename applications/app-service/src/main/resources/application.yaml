@@ -23,9 +23,7 @@ spring:
       ddl-auto: update
   datasource:
     driver-class-name: "org.postgresql.Driver"
-    url: "jdbc:postgresql://localhost:5432/personas_sofka"
-    username: "postgres"
-    password: 123456
+    url: jdbc:postgresql://postgres-db-admin-sofka.postgres.database.azure.com:5432/personas_sofka?user=sofka&password=S60S1Gh2pE$z&sslmode=require
   jms:
     servicebus:
       connection-string: Endpoint=sb://sb-administracion-sofkianos.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=rJnBJoWWn/Hj43Shyw2kdffD0RJgmjTH4TzhCxTxPhI=
