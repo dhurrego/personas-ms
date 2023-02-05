@@ -1,6 +1,7 @@
 package co.com.sofka.usecase.experiencia;
 
 import co.com.sofka.model.cliente.Cliente;
+import co.com.sofka.model.cliente.dto.ClienteDTO;
 import co.com.sofka.model.exception.negocio.BusinessException;
 import co.com.sofka.model.experiencia.ExperienciaSofkianoCliente;
 import co.com.sofka.model.experiencia.dto.RegistrarExperienciaSofkianoDTO;
@@ -62,6 +63,11 @@ class RegistrarExperienciaSofkianoClienteUseCaseTest {
                 .razonSocial(STRING_TEST)
                 .build();
 
+        ClienteDTO clienteDTO = ClienteDTO.builder()
+                .nit(NIT)
+                .razonSocial(STRING_TEST)
+                .build();
+
         Sofkiano sofkiano = Sofkiano.builder()
                 .dni(TIPO_IDENTIFICACION.concat(NUMERO_IDENTIFICACION))
                 .tipoIdentificacion(TipoIdentificacion.valueOf(TIPO_IDENTIFICACION))
@@ -96,7 +102,7 @@ class RegistrarExperienciaSofkianoClienteUseCaseTest {
                 .segundoApellido(Optional.of(STRING_TEST))
                 .activo(true)
                 .direccion(STRING_TEST)
-                .cliente(Optional.of(cliente))
+                .cliente(Optional.of(clienteDTO))
                 .build();
     }
 

@@ -1,6 +1,6 @@
 package co.com.sofka.usecase.experiencia;
 
-import co.com.sofka.model.cliente.Cliente;
+import co.com.sofka.model.cliente.dto.ClienteDTO;
 import co.com.sofka.model.experiencia.ExperienciaSofkianoCliente;
 import co.com.sofka.model.experiencia.dto.RegistrarExperienciaSofkianoDTO;
 import co.com.sofka.model.experiencia.factoria.ExperienciaSofkianoClienteFactory;
@@ -38,7 +38,7 @@ public class RegistrarExperienciaSofkianoClienteUseCase {
 
     private static String validarSiSofkianoPerteneceAlCliente(String nitCliente, SofkianoDTO sofkianoDTO) {
         return sofkianoDTO.cliente()
-                .map(Cliente::getNit)
+                .map(ClienteDTO::nit)
                 .filter(nitCliente::equals)
                 .orElseThrow(ERROR_SOFKIANO_NO_ASIGNADO_AL_CLIENTE::build);
     }

@@ -44,6 +44,15 @@ constantes:
     registros:
       maximo: 100
 
+springdoc:
+  swagger-ui:
+    path: /swagger-doc/swagger-ui.html
+  api-docs:
+    path: /swagger-doc/v3/api-docs
+  packages-to-scan: co.com.sofka.api
+  webjars:
+    prefix: /documentacion
+
 logging:
   level:
     org:
