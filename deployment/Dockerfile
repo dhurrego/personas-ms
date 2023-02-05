@@ -4,6 +4,15 @@ WORKDIR /app
 
 COPY . /app
 
-RUN pwd
+RUN ./gradlew build
 
-ENTRYPOINT [ "ls", "-l" ]
+FROM amazoncorretto:17-alpine
+
+ARG PORT_APP=8080
+ENV PORT $PORT_APP
+
+EXPOSE $PORT
+
+COPY --from=builder /app/applications/app-service/build/libs/personas-ms.jar /app/personas-ms.jar
+
+ENTRYPOINT [ "sh", "-c", "java -jar /app/personas-ms.jar" ]
