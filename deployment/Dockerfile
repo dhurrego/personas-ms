@@ -4,10 +4,6 @@ WORKDIR /app
 
 COPY . /app
 
-USER root
-RUN chown -R gradle /app
-USER gradle
-
 RUN gradle build
 
 FROM amazoncorretto:17-alpine
