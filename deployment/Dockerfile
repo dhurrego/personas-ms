@@ -4,7 +4,7 @@ WORKDIR /app
 
 COPY . /app
 
-RUN ./gradlew build
+RUN gradle build
 
 FROM amazoncorretto:17-alpine
 
