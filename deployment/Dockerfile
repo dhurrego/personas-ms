@@ -2,9 +2,9 @@ FROM gradle:jdk17-alpine as builder
 
 WORKDIR /app
 
-COPY / /app
+COPY . /app
 
-RUN gradle build
+RUN gradle /app/build.gradle build
 
 FROM amazoncorretto:17-alpine
 
