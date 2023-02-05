@@ -13,7 +13,7 @@ spec:
         app: personas-ms
     spec:
       containers:
-        - image: acradminsofka.azurecr.io/personas-ms:latest
+        - image: acradminsofka.azurecr.io/personas-ms:#{Build.BuildId}#
           name: personas-ms
           ports:
             - containerPort: 8080
