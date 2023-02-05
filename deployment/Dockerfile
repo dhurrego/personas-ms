@@ -2,7 +2,7 @@ FROM gradle:jdk17-alpine as builder
 
 WORKDIR /app
 
-COPY . /app
+COPY / /app
 
 RUN gradle build
 
