@@ -35,7 +35,7 @@ y calcular la cobertura
 ## Documentación API
 
 Se crea la documentación a través de Swagger, se anexa enlace de la misma: 
-[Documentación Swagger](http://52.226.240.196/swagger-doc/swagger-ui.html)
+[Documentación Swagger](http://20.237.54.116/swagger-doc/swagger-ui.html)
 
 ## Despliegue
 
