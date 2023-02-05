@@ -1,6 +1,6 @@
 package co.com.sofka.model.sofkiano.dto;
 
-import co.com.sofka.model.cliente.Cliente;
+import co.com.sofka.model.cliente.dto.ClienteDTO;
 import lombok.Builder;
 
 import java.io.Serializable;
@@ -16,6 +16,6 @@ public record SofkianoDTO(
         Optional<String> segundoApellido,
         String direccion,
         boolean activo,
-        Optional<Cliente> cliente
+        Optional<ClienteDTO> cliente
 )  implements Serializable {
 }

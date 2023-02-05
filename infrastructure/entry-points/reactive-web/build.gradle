@@ -2,4 +2,6 @@ dependencies {
     implementation project(':usecase')
     implementation project(':model')
     implementation 'org.springframework.boot:spring-boot-starter-webflux'
+    implementation 'org.springdoc:springdoc-openapi-starter-webflux-api:2.0.2'
+    implementation 'org.springdoc:springdoc-openapi-starter-webflux-ui:2.0.2'
 }
