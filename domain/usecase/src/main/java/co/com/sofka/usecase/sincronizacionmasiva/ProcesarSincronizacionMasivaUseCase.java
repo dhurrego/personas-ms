@@ -75,8 +75,8 @@ public class ProcesarSincronizacionMasivaUseCase {
                 .map(SofkianoFactory::crearSofkiano)
                 .flatMap(this::construirSofkianoAGuardarActualizar)
                 .flatMap(sofkianoRepository::save)
-                .flatMap(sofkiano -> actualizarAsignacion(sofkianoMasivoDTO, sofkiano))
                 .flatMap(sofkianoExistente -> activarOInactivarSofkiano(sofkianoMasivoDTO, sofkianoExistente))
+                .flatMap(sofkianoExistente -> actualizarAsignacion(sofkianoMasivoDTO, sofkianoExistente))
                 .flatMap(sofkianoExistente -> sofkianoRepository.findById(sofkianoExistente.getDni()))
                 .onErrorResume(throwable -> sincronizacionMasivaRepository
                         .incrementarEjecucionesFallidas(idSincronizacion)

@@ -1,5 +1,6 @@
 package co.com.sofka.usecase.sofkiano;
 
+import co.com.sofka.model.estadisticas.gateways.CambioEstadoGateway;
 import co.com.sofka.model.exception.negocio.BusinessException;
 import co.com.sofka.model.sofkiano.Sofkiano;
 import co.com.sofka.model.sofkiano.dto.SofkianoARegistrarDTO;
@@ -35,6 +36,9 @@ class AlmacenarEditarSofkianoUseCaseTest {
 
     @Mock
     private SofkianoRepository sofkianoRepository;
+
+    @Mock
+    private CambioEstadoGateway cambioEstadoGateway;
 
     private SofkianoARegistrarDTO sofkianoARegistrarDTO;
     private Sofkiano sofkiano;
@@ -72,6 +76,7 @@ class AlmacenarEditarSofkianoUseCaseTest {
     void registrarSofkianoExitosamente() {
         when(sofkianoRepository.findById(anyString())).thenReturn(Mono.empty());
         when(sofkianoRepository.save(any(Sofkiano.class))).thenReturn(Mono.just(sofkiano));
+        when(cambioEstadoGateway.reportarCambioEstadoSofkiano(any())).thenReturn(Mono.just(Boolean.TRUE));
 
         spy(sofkianoRepository);
 
@@ -86,6 +91,7 @@ class AlmacenarEditarSofkianoUseCaseTest {
 
         verify(sofkianoRepository, times(1)).findById(anyString());
         verify(sofkianoRepository, times(1)).save(any(Sofkiano.class));
+        verify(cambioEstadoGateway, times(1)).reportarCambioEstadoSofkiano(any());
     }
 
     @Test

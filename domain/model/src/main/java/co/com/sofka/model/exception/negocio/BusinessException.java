@@ -7,6 +7,8 @@ public class BusinessException extends BaseException {
     public enum Tipo {
         ERROR_SOFKIANO_ACTIVO("El sofkiano ya se encuentra activo", 400),
         ERROR_SOFKIANO_INACTIVO("El Sofkiano ya se encuentra inactivo", 400),
+        ERROR_SOFKIANO_SIN_CLIENTE_ASIGNADO("El sofkiano no tiene un cliente asignado", 400),
+        ERROR_SOFKIANO_ASIGNADO_MISMO_CLIENTE("El sofkiano ya se encuentra asignado a ese cliente", 400),
         ERROR_TIPO_IDENTIFICACION_REQUERIDO("El campo tipo de identificación es obligatorio", 400),
         ERROR_NUMERO_IDENTIFICACION_REQUERIDO("El campo número de identificación es obligatorio", 400),
         ERROR_PRIMER_NOMBRE_REQUERIDO("El campo primer nombre es obligatorio", 400),
