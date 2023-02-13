@@ -1,7 +1,8 @@
 package co.com.sofka.api.experiencia;
 
+import co.com.sofka.api.config.WebSecurityConfig;
 import co.com.sofka.api.dto.RespuestaGenericaDTO;
-import co.com.sofka.api.handler.ResponseExceptionHandler;
+import co.com.sofka.api.handler.ReactiveExceptionHandler;
 import co.com.sofka.model.experiencia.dto.ExperienciaSofkianoClienteDTO;
 import co.com.sofka.model.experiencia.dto.PromedioCalificacionClienteDTO;
 import co.com.sofka.model.experiencia.dto.RegistrarExperienciaSofkianoDTO;
@@ -15,6 +16,7 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.web.reactive.AutoConfigureWebTestClient;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.HttpHeaders;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import reactor.core.publisher.Flux;
@@ -28,7 +30,8 @@ import static org.mockito.Mockito.when;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,
-        classes = {ExperienciaSofkianoClienteController.class, ResponseExceptionHandler.class})
+        classes = {ExperienciaSofkianoClienteController.class, ReactiveExceptionHandler.class})
+@Import(WebSecurityConfig.class)
 @AutoConfigureWebTestClient
 @EnableAutoConfiguration
 @ExtendWith(MockitoExtension.class)

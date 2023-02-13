@@ -53,6 +53,10 @@ springdoc:
   webjars:
     prefix: /documentacion
 
+app:
+  jwt:
+    secret: "E)H@McQfThWmZq4t7w!z%C*F-JaNdRgU"
+
 logging:
   level:
     org:
