@@ -1,6 +1,7 @@
 apply plugin: 'org.springframework.boot'
 
 dependencies {
+	implementation project( ':token-jwt')
 	implementation project( ':apache-poi')
 	implementation project( ':azure-servicebus-listener')
 	implementation project( ':azure-servicebus-messages-senders')

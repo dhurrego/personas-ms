@@ -1,6 +1,7 @@
 package co.com.sofka.api.cliente;
 
-import co.com.sofka.api.handler.ResponseExceptionHandler;
+import co.com.sofka.api.config.WebSecurityConfig;
+import co.com.sofka.api.handler.ReactiveExceptionHandler;
 import co.com.sofka.model.cliente.dto.ClienteDTO;
 import co.com.sofka.usecase.cliente.AlmacenarEditarClienteUseCase;
 import co.com.sofka.usecase.cliente.ConsultarClientesUseCase;
@@ -13,14 +14,15 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.web.reactive.AutoConfigureWebTestClient;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ProblemDetail;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-import static co.com.sofka.model.exception.negocio.BusinessException.Tipo.ERROR_FORMATO_NIT_INVALIDO;
 import static co.com.sofka.model.exception.negocio.BusinessException.Tipo.ERROR_CLIENTE_NO_ENCONTRADO;
+import static co.com.sofka.model.exception.negocio.BusinessException.Tipo.ERROR_FORMATO_NIT_INVALIDO;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
@@ -28,7 +30,8 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import static org.springframework.http.MediaType.APPLICATION_PROBLEM_JSON;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,
-        classes = {ClienteController.class, ResponseExceptionHandler.class})
+        classes = {ClienteController.class, ReactiveExceptionHandler.class})
+@Import(WebSecurityConfig.class)
 @AutoConfigureWebTestClient
 @EnableAutoConfiguration
 @ExtendWith(MockitoExtension.class)
