@@ -24,3 +24,5 @@ include ':azure-servicebus-listener'
 project(':azure-servicebus-listener').projectDir = file('./infrastructure/entry-points/azure-servicebus-listener')
 include ':apache-poi'
 project(':apache-poi').projectDir = file('./infrastructure/helpers/apache-poi')
+include ':token-jwt'
+project(':token-jwt').projectDir = file('./infrastructure/helpers/token-jwt')

@@ -1,6 +1,7 @@
 package co.com.sofka.api.sincronizacionmasiva;
 
-import co.com.sofka.api.handler.ResponseExceptionHandler;
+import co.com.sofka.api.config.WebSecurityConfig;
+import co.com.sofka.api.handler.ReactiveExceptionHandler;
 import co.com.sofka.model.archivo.dto.ArchivoDTO;
 import co.com.sofka.model.sincronizacionmasiva.EstadoSincronizacion;
 import co.com.sofka.model.sincronizacionmasiva.dto.SincronizacionMasivaDTO;
@@ -15,6 +16,7 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.web.reactive.AutoConfigureWebTestClient;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Import;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -36,7 +38,8 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import static org.springframework.http.MediaType.APPLICATION_PROBLEM_JSON;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,
-        classes = {SincronizacionMasivaController.class, ResponseExceptionHandler.class})
+        classes = {SincronizacionMasivaController.class, ReactiveExceptionHandler.class})
+@Import(WebSecurityConfig.class)
 @AutoConfigureWebTestClient
 @EnableAutoConfiguration
 @ExtendWith(MockitoExtension.class)
